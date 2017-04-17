@@ -1,7 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
 from random import randint
-from time import sleep
 
 program=Tk()
 program.title("9 Men's Morris")
