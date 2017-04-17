@@ -8,11 +8,13 @@ program.resizable(width=False, height=False)
 
 class parameter:
     def __init__(self):
-        self.whoseturn = -1 # 0: x, 1: v
+        self.whoseturn = 0 # 1: x, 2: v
         self.xpp = 0
         self.vpp = 0
         self.xap = 9
         self.vap = 9
+        self.move = []
+        self.select = -1
         self.state = -1 # 0: add
                         # 1: select
                         # 2: move
@@ -20,6 +22,28 @@ class parameter:
 
 global current_parameter
 current_parameter = parameter()
+
+def print_checked():
+    print(str(button_checked_list[21])+"  "+str(button_checked_list[22])+"  "+str(button_checked_list[23]))
+    print(" "+str(button_checked_list[18])+" "+str(button_checked_list[19])+" "+str(button_checked_list[20])+" ")
+    print("  "+str(button_checked_list[15])+str(button_checked_list[16])+str(button_checked_list[17])+"  ")
+    print(str(button_checked_list[9])+str(button_checked_list[10])+str(button_checked_list[11])+" "+
+            str(button_checked_list[12])+str(button_checked_list[13])+str(button_checked_list[14]))
+    print("  "+str(button_checked_list[6])+str(button_checked_list[7])+str(button_checked_list[8])+"  ")
+    print(" "+str(button_checked_list[3])+" "+str(button_checked_list[4])+" "+str(button_checked_list[5])+" ")
+    print(str(button_checked_list[0])+"  "+str(button_checked_list[1])+"  "+str(button_checked_list[2]))
+    print("-------")
+
+def print_state():
+    print(str(button_state_list[21])+"  "+str(button_state_list[22])+"  "+str(button_state_list[23]))
+    print(" "+str(button_state_list[18])+" "+str(button_state_list[19])+" "+str(button_state_list[20])+" ")
+    print("  "+str(button_state_list[15])+str(button_state_list[16])+str(button_state_list[17])+"  ")
+    print(str(button_state_list[9])+str(button_state_list[10])+str(button_state_list[11])+" "+
+            str(button_state_list[12])+str(button_state_list[13])+str(button_state_list[14]))
+    print("  "+str(button_state_list[6])+str(button_state_list[7])+str(button_state_list[8])+"  ")
+    print(" "+str(button_state_list[3])+" "+str(button_state_list[4])+" "+str(button_state_list[5])+" ")
+    print(str(button_state_list[0])+"  "+str(button_state_list[1])+"  "+str(button_state_list[2]))
+    print("-------")
 
 def window_center():
     return
@@ -81,39 +105,92 @@ def op(state, index):
         board_change()
         state_check()
     if state == 3:
-        remove_turn(index)
-
-def remove_turn(index):
-    if button_state_list[index] == -1 or current_parameter.whoseturn == button_state_list[index]:
-        messagebox.showwarning("", "Not valid selection")
-    else:
-        button_state_list[index] = -1
-        button_checked_list[index] = 0
-        current_parameter.state = 0
-        if current_parameter.whoseturn == 0:
-            button_list[index].config(image=xb_image)
-        if current_parameter.whoseturn == 1:
-            button_list[index].config(image=vb_image)
-        turn_change()
+        if remove_turn(index):
+            turn_change()
+            board_change()
+            state_check()
+    if state == 1 and select_turn(index):
+        state_check()
+    if state == 2 and move_turn(index, current_parameter.select):
+        if not board_check():
+            turn_change()
         board_change()
         state_check()
+    print_state()
+    print_checked()
+    
+
+def select_turn(index):
+    if button_state_list[index] != current_parameter.whoseturn:
+        messagebox.showwarning("", "Not a valid selection")
+        return False
+    else:
+        current_parameter.state = 2
+        current_parameter.select = index
+        return True
+
+def select_check(index):
+    if (current_parameter.whoseturn == 1 and current_parameter.xpp <= 3) or\
+        (current_parameter.whoseturn == 2 and current_parameter.vpp <= 3):
+        return True
+    else:
+        pass
+
+def move_turn(new, old):
+    if button_state_list[new] == 0:
+        button_state_list[old] = 0
+        button_checked_list[old] = 0
+        button_state_list[new] = current_parameter.whoseturn
+        if current_parameter.whoseturn == 1:
+            button_list[old].config(image=xb_image)
+            button_list[new].config(image=x_image)
+        if current_parameter.whoseturn == 2:
+            button_list[old].config(image=vb_image)
+            button_list[new].config(image=v_image)
+        return True
+    else:
+        messagebox.showwarning("", "Not a valid selection")
+        return False
+
+def remove_check():
+    pass
+
+def remove_turn(index):
+    if button_state_list[index] == 0 or current_parameter.whoseturn == button_state_list[index]:
+        messagebox.showwarning("", "Not a valid selection")
+        return False
+    else:
+        button_state_list[index] = 0
+        button_checked_list[index] = 0
+        current_parameter.state = 0
+        if current_parameter.whoseturn == 1:
+            button_list[index].config(image=xb_image)
+            current_parameter.xpp -= 1
+        if current_parameter.whoseturn == 2:
+            button_list[index].config(image=vb_image)
+            current_parameter.vpp -= 1
+        return True
 
 def turn_change():
-    if current_parameter.whoseturn == 0:
-        current_parameter.whoseturn = 1
+    if current_parameter.whoseturn == 1:
+        if current_parameter.vap == 0:
+            current_parameter.state = 1
+        current_parameter.whoseturn = 2
         turn_image.config(image=v_image)
         return
-    if current_parameter.whoseturn == 1:
-        current_parameter.whoseturn = 0
+    if current_parameter.whoseturn == 2:
+        if current_parameter.xap == 0:
+            current_parameter.state = 1
+        current_parameter.whoseturn = 1
         turn_image.config(image=x_image)
         return
 
 def board_change():
     i=0
     for e in button_list:
-        if button_state_list[i] == -1 and current_parameter.whoseturn == 0:
+        if button_state_list[i] == 0 and current_parameter.whoseturn == 1:
             e.config(image=xb_image)
-        if button_state_list[i] == -1 and current_parameter.whoseturn == 1:
+        if button_state_list[i] == 0 and current_parameter.whoseturn == 2:
             e.config(image=vb_image)
         i+=1
 
@@ -130,11 +207,27 @@ def state_check():
     if current_parameter.state == 3:
         action_image.config(image=r_image)
 
+def place(player, index):
+    if player == 1 and button_state_list[index] == 0:
+        button_list[index].config(image=x_image)
+        button_state_list[index] = player
+        if current_parameter.xap>0:
+            current_parameter.xap-=1
+            current_parameter.xpp+=1
+        return True
+    if player == 2 and button_state_list[index] == 0:
+        button_list[index].config(image=v_image)
+        button_state_list[index] = player
+        if current_parameter.vap>0:
+            current_parameter.vap-=1
+            current_parameter.vpp+=1
+        return True
+
 def board_check():
     if button_state_list[0] == button_state_list[1] and\
         button_state_list[0] == button_state_list[2] and\
         button_state_list[1] == button_state_list[2] and\
-        button_state_list[0] != -1 and\
+        button_state_list[0] != 0 and\
         (button_checked_list[0] == 0 or\
         button_checked_list[1] == 0 or\
         button_checked_list[2] == 0):
@@ -146,7 +239,7 @@ def board_check():
     if button_state_list[3] == button_state_list[4] and\
         button_state_list[3] == button_state_list[5] and\
         button_state_list[4] == button_state_list[5] and\
-        button_state_list[3] != -1 and\
+        button_state_list[3] != 0 and\
         (button_checked_list[3] == 0 or\
         button_checked_list[4] == 0 or\
         button_checked_list[5] == 0):
@@ -158,7 +251,7 @@ def board_check():
     if button_state_list[6] == button_state_list[7] and\
         button_state_list[6] == button_state_list[8] and\
         button_state_list[7] == button_state_list[8] and\
-        button_state_list[6] != -1 and\
+        button_state_list[6] != 0 and\
         (button_checked_list[6] == 0 or\
         button_checked_list[7] == 0 or\
         button_checked_list[8] == 0):
@@ -170,7 +263,7 @@ def board_check():
     if button_state_list[9] == button_state_list[10] and\
         button_state_list[9] == button_state_list[11] and\
         button_state_list[10] == button_state_list[11] and\
-        button_state_list[9] != -1 and\
+        button_state_list[9] != 0 and\
         (button_checked_list[9] == 0 or\
         button_checked_list[10] == 0 or\
         button_checked_list[11] == 0):
@@ -182,19 +275,19 @@ def board_check():
     if button_state_list[12] == button_state_list[13] and\
         button_state_list[12] == button_state_list[14] and\
         button_state_list[13] == button_state_list[14] and\
-        button_state_list[12] != -1 and\
+        button_state_list[12] != 0 and\
         (button_checked_list[12] == 0 or\
         button_checked_list[13] == 0 or\
         button_checked_list[14] == 0):
         button_checked_list[12] = 1
-        button_checked_list[3] = 1
+        button_checked_list[13] = 1
         button_checked_list[14] = 1
         current_parameter.state = 3
         return True
     if button_state_list[15] == button_state_list[16] and\
         button_state_list[15] == button_state_list[17] and\
         button_state_list[16] == button_state_list[17] and\
-        button_state_list[15] != -1 and\
+        button_state_list[15] != 0 and\
         (button_checked_list[15] == 0 or\
         button_checked_list[16] == 0 or\
         button_checked_list[17] == 0):
@@ -206,7 +299,7 @@ def board_check():
     if button_state_list[18] == button_state_list[19] and\
         button_state_list[18] == button_state_list[20] and\
         button_state_list[19] == button_state_list[20] and\
-        button_state_list[19] != -1 and\
+        button_state_list[19] != 0 and\
         (button_checked_list[18] == 0 or\
         button_checked_list[19] == 0 or\
         button_checked_list[20] == 0):
@@ -218,7 +311,7 @@ def board_check():
     if button_state_list[21] == button_state_list[22] and\
         button_state_list[21] == button_state_list[23] and\
         button_state_list[22] == button_state_list[23] and\
-        button_state_list[21] != -1 and\
+        button_state_list[21] != 0 and\
         (button_checked_list[21] == 0 or\
         button_checked_list[22] == 0 or\
         button_checked_list[23] == 0):
@@ -230,7 +323,7 @@ def board_check():
     if button_state_list[0] == button_state_list[9] and\
         button_state_list[0] == button_state_list[21] and\
         button_state_list[9] == button_state_list[21] and\
-        button_state_list[0] != -1 and\
+        button_state_list[0] != 0 and\
         (button_checked_list[0] == 0 or\
         button_checked_list[9] == 0 or\
         button_checked_list[21] == 0):
@@ -242,7 +335,7 @@ def board_check():
     if button_state_list[18] == button_state_list[10] and\
         button_state_list[18] == button_state_list[3] and\
         button_state_list[10] == button_state_list[3] and\
-        button_state_list[18] != -1 and\
+        button_state_list[18] != 0 and\
         (button_checked_list[18] == 0 or\
         button_checked_list[10] == 0 or\
         button_checked_list[3] == 0):
@@ -254,7 +347,7 @@ def board_check():
     if button_state_list[15] == button_state_list[11] and\
         button_state_list[15] == button_state_list[6] and\
         button_state_list[11] == button_state_list[6] and\
-        button_state_list[15] != -1 and\
+        button_state_list[15] != 0 and\
         (button_checked_list[11] == 0 or\
         button_checked_list[6] == 0 or\
         button_checked_list[15] == 0):
@@ -266,7 +359,7 @@ def board_check():
     if button_state_list[22] == button_state_list[19] and\
         button_state_list[22] == button_state_list[16] and\
         button_state_list[19] == button_state_list[16] and\
-        button_state_list[22] != -1 and\
+        button_state_list[22] != 0 and\
         (button_checked_list[22] == 0 or\
         button_checked_list[19] == 0 or\
         button_checked_list[16] == 0):
@@ -278,7 +371,7 @@ def board_check():
     if button_state_list[7] == button_state_list[4] and\
         button_state_list[7] == button_state_list[1] and\
         button_state_list[4] == button_state_list[1] and\
-        button_state_list[7] != -1 and\
+        button_state_list[7] != 0 and\
         (button_checked_list[4] == 0 or\
         button_checked_list[7] == 0 or\
         button_checked_list[1] == 0):
@@ -290,7 +383,7 @@ def board_check():
     if button_state_list[17] == button_state_list[12] and\
         button_state_list[17] == button_state_list[8] and\
         button_state_list[12] == button_state_list[8] and\
-        button_state_list[17] != -1 and\
+        button_state_list[17] != 0 and\
         (button_checked_list[17] == 0 or\
         button_checked_list[12] == 0 or\
         button_checked_list[8] == 0):
@@ -302,7 +395,7 @@ def board_check():
     if button_state_list[20] == button_state_list[13] and\
         button_state_list[20] == button_state_list[5] and\
         button_state_list[13] == button_state_list[5] and\
-        button_state_list[20] != -1 and\
+        button_state_list[20] != 0 and\
         (button_checked_list[13] == 0 or\
         button_checked_list[20] == 0 or\
         button_checked_list[5] == 0):
@@ -314,7 +407,7 @@ def board_check():
     if button_state_list[23] == button_state_list[14] and\
         button_state_list[23] == button_state_list[2] and\
         button_state_list[14] == button_state_list[2] and\
-        button_state_list[23] != -1 and\
+        button_state_list[23] != 0 and\
         (button_checked_list[23] == 0 or\
         button_checked_list[14] == 0 or\
         button_checked_list[2] == 0):
@@ -324,22 +417,6 @@ def board_check():
         current_parameter.state = 3
         return True
     return False
-
-def place(player, index):
-    if player == 0 and button_state_list[index] == -1:
-        button_list[index].config(image=x_image)
-        button_state_list[index] = player
-        if current_parameter.xap>0:
-            current_parameter.xap-=1
-            current_parameter.xpp+=1
-        return True
-    if player == 1 and button_state_list[index] == -1:
-        button_list[index].config(image=v_image)
-        button_state_list[index] = player
-        if current_parameter.vap>0:
-            current_parameter.vap-=1
-            current_parameter.vpp+=1
-        return True
 
 v_image = PhotoImage(file="images/v.gif").subsample(2,2)
 x_image = PhotoImage(file="images/x.gif").subsample(2,2)
@@ -433,30 +510,30 @@ coord_d = Label(text="d")
 coord_e = Label(text="e")
 coord_f = Label(text="f")
 coord_g = Label(text="g")
-button1a_state = -1
-button1d_state = -1
-button1g_state = -1
-button2b_state = -1
-button2d_state = -1
-button2f_state = -1
-button3c_state = -1
-button3d_state = -1
-button3e_state = -1
-button4a_state = -1
-button4b_state = -1
-button4c_state = -1
-button4e_state = -1
-button4f_state = -1
-button4g_state = -1
-button5c_state = -1
-button5d_state = -1
-button5e_state = -1
-button6b_state = -1
-button6d_state = -1
-button6f_state = -1
-button7a_state = -1
-button7d_state = -1
-button7g_state = -1
+button1a_state = 0
+button1d_state = 0
+button1g_state = 0
+button2b_state = 0
+button2d_state = 0
+button2f_state = 0
+button3c_state = 0
+button3d_state = 0
+button3e_state = 0
+button4a_state = 0
+button4b_state = 0
+button4c_state = 0
+button4e_state = 0
+button4f_state = 0
+button4g_state = 0
+button5c_state = 0
+button5d_state = 0
+button5e_state = 0
+button6b_state = 0
+button6d_state = 0
+button6f_state = 0
+button7a_state = 0
+button7d_state = 0
+button7g_state = 0
 button1a_checked = 0
 button1d_checked = 0
 button1g_checked = 0
@@ -501,12 +578,12 @@ button_checked_list = [button1a_checked, button1d_checked, button1g_checked,
 start_interface()
 window_center()
 if randint(1,10)%2 == 0:
-    current_parameter.whoseturn = 0 # x
+    current_parameter.whoseturn = 1 # x
     turn_image.config(image=x_image)
     for e in button_list:
         e.config(image=xb_image)
 else:
-    current_parameter.whoseturn = 1 # v
+    current_parameter.whoseturn = 2 # v
     turn_image.config(image=v_image)
     for e in button_list:
         e.config(image=vb_image)
