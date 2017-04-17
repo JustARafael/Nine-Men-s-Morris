@@ -156,13 +156,11 @@ def reset():
         button_checked_list[i]=0
         button_state_list[i]=0
         i+=1
-    print_state()
-    print_checked()
     start_game()      
 
 def select_turn(index):
     if button_state_list[index] != current_parameter.whoseturn or not select_check(index):
-        messagebox.showwarning("Alert", "Cannot select this")
+        messagebox.showwarning("", "Cannot select this")
         return False
     else:
         current_parameter.state = 2
@@ -374,11 +372,279 @@ def move_turn(new, old):
         messagebox.showwarning("", "Cannot move to here")
         return False
 
-def remove_check():
-    pass
+def remove_check(index):
+    if button_checked_list[index] == 0:
+        current_parameter.remove = list(range(24))
+    else:
+        i=0
+        current_parameter.remove = []
+        for e in button_state_list:
+            if e != current_parameter.whoseturn and e != 0:
+                current_parameter.remove.append(i)
+            i+=1
+        if button_state_list[0] == button_state_list[1] and\
+        button_state_list[0] == button_state_list[2] and\
+        button_state_list[1] == button_state_list[2] and\
+        button_state_list[0] != 0:
+            try:
+                current_parameter.remove.remove(0)
+            except ValueError:
+                pass            
+            try:
+                current_parameter.remove.remove(1)
+            except ValueError:
+                pass           
+            try:
+                current_parameter.remove.remove(2)
+            except ValueError:
+                pass
+        if button_state_list[3] == button_state_list[4] and\
+        button_state_list[3] == button_state_list[5] and\
+        button_state_list[4] == button_state_list[5] and\
+        button_state_list[3] != 0:
+            try:
+                current_parameter.remove.remove(3)
+            except ValueError:
+                pass            
+            try:
+                current_parameter.remove.remove(4)
+            except ValueError:
+                pass            
+            try:
+                current_parameter.remove.remove(5)
+            except ValueError:
+                pass        
+        if button_state_list[6] == button_state_list[7] and\
+        button_state_list[6] == button_state_list[8] and\
+        button_state_list[7] == button_state_list[8] and\
+        button_state_list[6] != 0:
+            try:
+                current_parameter.remove.remove(6)
+            except ValueError:
+                pass            
+            try:
+                current_parameter.remove.remove(7)
+            except ValueError:
+                pass            
+            try:
+                current_parameter.remove.remove(8)
+            except ValueError:
+                pass        
+        if button_state_list[9] == button_state_list[10] and\
+        button_state_list[9] == button_state_list[11] and\
+        button_state_list[10] == button_state_list[11] and\
+        button_state_list[9] != 0:
+            try:
+                current_parameter.remove.remove(9)
+            except ValueError:
+                pass            
+            try:
+                current_parameter.remove.remove(10)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(11)
+            except ValueError:
+                pass
+        if button_state_list[12] == button_state_list[13] and\
+        button_state_list[12] == button_state_list[14] and\
+        button_state_list[13] == button_state_list[14] and\
+        button_state_list[12] != 0:
+            try:
+                current_parameter.remove.remove(12)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(13)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(14)
+            except ValueError:
+                pass
+        if button_state_list[15] == button_state_list[16] and\
+        button_state_list[15] == button_state_list[17] and\
+        button_state_list[16] == button_state_list[17] and\
+        button_state_list[15] != 0:
+            try:
+                current_parameter.remove.remove(15)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(16)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(17)
+            except ValueError:
+                pass
+        if button_state_list[18] == button_state_list[19] and\
+        button_state_list[18] == button_state_list[20] and\
+        button_state_list[19] == button_state_list[20] and\
+        button_state_list[19] != 0:
+            try:
+                current_parameter.remove.remove(18)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(19)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(20)
+            except ValueError:
+                pass
+        if button_state_list[21] == button_state_list[22] and\
+        button_state_list[21] == button_state_list[23] and\
+        button_state_list[22] == button_state_list[23] and\
+        button_state_list[21] != 0:
+            try:
+                current_parameter.remove.remove(21)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(22)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(23)
+            except ValueError:
+                pass
+        if button_state_list[0] == button_state_list[9] and\
+        button_state_list[0] == button_state_list[21] and\
+        button_state_list[9] == button_state_list[21] and\
+        button_state_list[0] != 0:
+            try:
+                current_parameter.remove.remove(0)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(9)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(21)
+            except ValueError:
+                pass
+        if button_state_list[18] == button_state_list[10] and\
+        button_state_list[18] == button_state_list[3] and\
+        button_state_list[10] == button_state_list[3] and\
+        button_state_list[18] != 0:
+            try:
+                current_parameter.remove.remove(3)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(10)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(18)
+            except ValueError:
+                pass
+        if button_state_list[15] == button_state_list[11] and\
+        button_state_list[15] == button_state_list[6] and\
+        button_state_list[11] == button_state_list[6] and\
+        button_state_list[15] != 0:
+            try:
+                current_parameter.remove.remove(6)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(11)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(15)
+            except ValueError:
+                pass
+        if button_state_list[22] == button_state_list[19] and\
+        button_state_list[22] == button_state_list[16] and\
+        button_state_list[19] == button_state_list[16] and\
+        button_state_list[22] != 0:
+            try:
+                current_parameter.remove.remove(16)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(19)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(22)
+            except ValueError:
+                pass
+        if button_state_list[7] == button_state_list[4] and\
+        button_state_list[7] == button_state_list[1] and\
+        button_state_list[4] == button_state_list[1] and\
+        button_state_list[7] != 0:
+            try:
+                current_parameter.remove.remove(4)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(1)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(7)
+            except ValueError:
+                pass
+        if button_state_list[17] == button_state_list[12] and\
+        button_state_list[17] == button_state_list[8] and\
+        button_state_list[12] == button_state_list[8] and\
+        button_state_list[17] != 0:
+            try:
+                current_parameter.remove.remove(8)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(12)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(17)
+            except ValueError:
+                pass
+        if button_state_list[20] == button_state_list[13] and\
+        button_state_list[20] == button_state_list[5] and\
+        button_state_list[13] == button_state_list[5] and\
+        button_state_list[20] != 0:
+            try:
+                current_parameter.remove.remove(20)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(13)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(5)
+            except ValueError:
+                pass
+        if button_state_list[23] == button_state_list[14] and\
+        button_state_list[23] == button_state_list[2] and\
+        button_state_list[14] == button_state_list[2] and\
+        button_state_list[23] != 0:
+            try:
+                current_parameter.remove.remove(2)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(14)
+            except ValueError:
+                pass
+            try:
+                current_parameter.remove.remove(23)
+            except ValueError:
+                pass
+        if current_parameter.remove == []:
+            current_parameter.remove = list(range(24))
 
 def remove_turn(index):
-    if button_state_list[index] == 0 or current_parameter.whoseturn == button_state_list[index]:
+    remove_check(index)
+    if button_state_list[index] == 0 or current_parameter.whoseturn == button_state_list[index] or\
+    (index not in current_parameter.remove):
         messagebox.showwarning("", "Cannot be removed")
         return False
     else:
