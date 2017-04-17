@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 from random import randint
+from time import sleep
 
 program=Tk()
 program.title("9 Men's Morris")
@@ -10,10 +11,11 @@ class parameter:
     def __init__(self):
         self.whoseturn = 0 # 1: x, 2: v
         self.xpp = 0
-        self.vpp = 0
         self.xap = 9
+        self.vpp = 0
         self.vap = 9
         self.move = []
+        self.remove = []
         self.select = -1
         self.state = -1 # 0: add
                         # 1: select
@@ -98,6 +100,20 @@ def start_interface():
     state_frame.grid(row=0, column=8, rowspan=9)
     legend_frame.grid(row=8, column=0, columnspan=9)
 
+def start_game():
+    if randint(1,10)%2 == 0:
+        current_parameter.whoseturn = 1 # x
+        turn_image.config(image=x_image)
+        for e in button_list:
+            e.config(image=xb_image)
+    else:
+        current_parameter.whoseturn = 2 # v
+        turn_image.config(image=v_image)
+        for e in button_list:
+            e.config(image=vb_image)
+    current_parameter.state = 0
+    state_check()
+
 def op(state, index):
     if state == 0 and place(current_parameter.whoseturn, index):
         if not board_check():
@@ -116,13 +132,37 @@ def op(state, index):
             turn_change()
         board_change()
         state_check()
+    if current_parameter.xpp == 2 and current_parameter.xap == 0:
+        for e in button_list:
+            e.config(image=v_image)
+        messagebox.showinfo("", "Green Win")
+        reset()
+    if current_parameter.vpp == 2 and current_parameter.vap == 0:
+        for e in button_list:
+            e.config(image=x_image)
+        messagebox.showinfo("", "Red Win")
+        reset()
+
+def reset():
+    current_parameter.xpp = 0
+    current_parameter.vpp = 0
+    current_parameter.xap = 9
+    current_parameter.vap = 9
+    current_parameter.move = []
+    current_parameter.remove = []
+    current_parameter.select = -1
+    i=0
+    while i<len(button_state_list):
+        button_checked_list[i]=0
+        button_state_list[i]=0
+        i+=1
     print_state()
     print_checked()
-    
+    start_game()      
 
 def select_turn(index):
-    if button_state_list[index] != current_parameter.whoseturn:
-        messagebox.showwarning("", "Not a valid selection")
+    if button_state_list[index] != current_parameter.whoseturn or not select_check(index):
+        messagebox.showwarning("Alert", "Cannot select this")
         return False
     else:
         current_parameter.state = 2
@@ -130,17 +170,199 @@ def select_turn(index):
         return True
 
 def select_check(index):
-    if (current_parameter.whoseturn == 1 and current_parameter.xpp <= 3) or\
-        (current_parameter.whoseturn == 2 and current_parameter.vpp <= 3):
+    if (current_parameter.whoseturn == 1 and current_parameter.xpp == 3) or\
+        (current_parameter.whoseturn == 2 and current_parameter.vpp == 3):
+        i=0
+        for e in button_state_list:
+            if e == 0:
+                current_parameter.move.append(i)
+            i+=1
         return True
     else:
-        pass
+        if index == 0 and (button_state_list[9] == 0 or button_state_list[1] == 0):
+            if button_state_list[9] == 0:
+                current_parameter.move.append(9)
+            if button_state_list[1] == 0:
+                current_parameter.move.append(1)  
+            return True
+        if index == 1 and (button_state_list[0] == 0 or button_state_list[2] == 0 or button_state_list[4] == 0):
+            if button_state_list[0] == 0:
+                current_parameter.move.append(0)
+            if button_state_list[2] == 0:
+                current_parameter.move.append(2)
+            if button_state_list[4] == 0:
+                current_parameter.move.append(4) 
+            return True
+        if index == 2 and (button_state_list[1] == 0 or button_state_list[14] == 0):
+            if button_state_list[1] == 0:
+                current_parameter.move.append(1)
+            if button_state_list[14] == 0:
+                current_parameter.move.append(14)
+            return True
+        if index == 3 and (button_state_list[4] == 0 or button_state_list[10] == 0):
+            if button_state_list[4] == 0:
+                current_parameter.move.append(4)
+            if button_state_list[10] == 0:
+                current_parameter.move.append(10)
+            return True
+        if index == 4 and (button_state_list[1] == 0 or button_state_list[3] == 0 or button_state_list[5] == 0 or button_state_list[7] == 0):
+            if button_state_list[1] == 0:
+                current_parameter.move.append(1)
+            if button_state_list[3] == 0:
+                current_parameter.move.append(3)
+            if button_state_list[5] == 0:
+                current_parameter.move.append(5) 
+            if button_state_list[7] == 0:
+                current_parameter.move.append(7) 
+            return True
+        if index == 5 and (button_state_list[4] == 0 or button_state_list[13] == 0):
+            if button_state_list[4] == 0:
+                current_parameter.move.append(4)
+            if button_state_list[13] == 0:
+                current_parameter.move.append(13)
+            return True
+        if index == 6 and (button_state_list[11] == 0 or button_state_list[7] == 0):
+            if button_state_list[11] == 0:
+                current_parameter.move.append(11)
+            if button_state_list[7] == 0:
+                current_parameter.move.append(7) 
+            return True
+        if index == 7 and (button_state_list[4] == 0 or button_state_list[6] == 0 or button_state_list[8] == 0):
+            if button_state_list[4] == 0:
+                current_parameter.move.append(4)
+            if button_state_list[6] == 0:
+                current_parameter.move.append(6)
+            if button_state_list[8] == 0:
+                current_parameter.move.append(8) 
+            return True
+        if index == 8 and (button_state_list[12] == 0 or button_state_list[7] == 0):
+            if button_state_list[12] == 0:
+                current_parameter.move.append(12)
+            if button_state_list[7] == 0:
+                current_parameter.move.append(7) 
+            return True
+        if index == 9 and (button_state_list[0] == 0 or button_state_list[10] == 0 or button_state_list[21] == 0):
+            if button_state_list[10] == 0:
+                current_parameter.move.append(10)
+            if button_state_list[0] == 0:
+                current_parameter.move.append(0)
+            if button_state_list[21] == 0:
+                current_parameter.move.append(21) 
+            return True
+        if index == 10 and (button_state_list[3] == 0 or button_state_list[9] == 0 or button_state_list[11] == 0 or button_state_list[18] == 0):
+            if button_state_list[9] == 0:
+                current_parameter.move.append(9)
+            if button_state_list[3] == 0:
+                current_parameter.move.append(3)
+            if button_state_list[11] == 0:
+                current_parameter.move.append(11) 
+            if button_state_list[18] == 0:
+                current_parameter.move.append(18) 
+            return True
+        if index == 11 and (button_state_list[10] == 0 or button_state_list[6] == 0 or button_state_list[15] == 0):
+            if button_state_list[10] == 0:
+                current_parameter.move.append(10)
+            if button_state_list[6] == 0:
+                current_parameter.move.append(6)
+            if button_state_list[15] == 0:
+                current_parameter.move.append(15)
+            return True
+        if index == 12 and (button_state_list[13] == 0 or button_state_list[8] == 0 or button_state_list[17] == 0):
+            if button_state_list[13] == 0:
+                current_parameter.move.append(13)
+            if button_state_list[8] == 0:
+                current_parameter.move.append(8)
+            if button_state_list[17] == 0:
+                current_parameter.move.append(17) 
+            return True
+        if index == 13 and (button_state_list[12] == 0 or button_state_list[5] == 0 or button_state_list[20] == 0 or button_state_list[14] == 0):
+            if button_state_list[12] == 0:
+                current_parameter.move.append(12)
+            if button_state_list[5] == 0:
+                current_parameter.move.append(5) 
+            if button_state_list[20] == 0:
+                current_parameter.move.append(20)
+            if button_state_list[14] == 0:
+                current_parameter.move.append(14) 
+            return True
+        if index == 14 and (button_state_list[13] == 0 or button_state_list[23] == 0 or button_state_list[2] == 0):
+            if button_state_list[13] == 0:
+                current_parameter.move.append(13)
+            if button_state_list[23] == 0:
+                current_parameter.move.append(23)
+            if button_state_list[2] == 0:
+                current_parameter.move.append(2) 
+            return True
+        if index == 15 and (button_state_list[11] == 0 or button_state_list[16] == 0):
+            if button_state_list[11] == 0:
+                current_parameter.move.append(11)
+            if button_state_list[16] == 0:
+                current_parameter.move.append(16)
+            return True
+        if index == 16 and (button_state_list[15] == 0 or button_state_list[19] == 0 or button_state_list[17] == 0):
+            if button_state_list[15] == 0:
+                current_parameter.move.append(15)
+            if button_state_list[19] == 0:
+                current_parameter.move.append(19)
+            if button_state_list[17] == 0:
+                current_parameter.move.append(17) 
+            return True
+        if index == 17 and (button_state_list[12] == 0 or button_state_list[16] == 0):
+            if button_state_list[12] == 0:
+                current_parameter.move.append(12)
+            if button_state_list[16] == 0:
+                current_parameter.move.append(16)
+            return True
+        if index == 18 and (button_state_list[10] == 0 or button_state_list[19] == 0):
+            if button_state_list[10] == 0:
+                current_parameter.move.append(10)
+            if button_state_list[19] == 0:
+                current_parameter.move.append(19)
+            return True
+        if index == 19 and (button_state_list[18] == 0 or button_state_list[16] == 0 or button_state_list[22] == 0 or button_state_list[20] == 0):
+            if button_state_list[18] == 0:
+                current_parameter.move.append(18)
+            if button_state_list[16] == 0:
+                current_parameter.move.append(16)
+            if button_state_list[22] == 0:
+                current_parameter.move.append(22) 
+            if button_state_list[20] == 0:
+                current_parameter.move.append(20) 
+            return True
+        if index == 20 and (button_state_list[19] == 0 or button_state_list[13] == 0):
+            if button_state_list[19] == 0:
+                current_parameter.move.append(19)
+            if button_state_list[13] == 0:
+                current_parameter.move.append(13)
+            return True
+        if index == 21 and (button_state_list[9] == 0 or button_state_list[22] == 0):
+            if button_state_list[9] == 0:
+                current_parameter.move.append(9)
+            if button_state_list[22] == 0:
+                current_parameter.move.append(22)
+            return True
+        if index == 22 and (button_state_list[21] == 0 or button_state_list[19] == 0 or button_state_list[23] == 0):
+            if button_state_list[21] == 0:
+                current_parameter.move.append(21)
+            if button_state_list[19] == 0:
+                current_parameter.move.append(19)
+            if button_state_list[23] == 0:
+                current_parameter.move.append(23) 
+            return True
+        if index == 23 and (button_state_list[14] == 0 or button_state_list[22] == 0):
+            if button_state_list[14] == 0:
+                current_parameter.move.append(14)
+            if button_state_list[22] == 0:
+                current_parameter.move.append(22)
+            return True
+    return False
 
 def move_turn(new, old):
-    if button_state_list[new] == 0:
+    if button_state_list[new] == 0 and (new in current_parameter.move):
         button_state_list[old] = 0
         button_checked_list[old] = 0
         button_state_list[new] = current_parameter.whoseturn
+        current_parameter.move = []
         if current_parameter.whoseturn == 1:
             button_list[old].config(image=xb_image)
             button_list[new].config(image=x_image)
@@ -149,7 +371,7 @@ def move_turn(new, old):
             button_list[new].config(image=v_image)
         return True
     else:
-        messagebox.showwarning("", "Not a valid selection")
+        messagebox.showwarning("", "Cannot move to here")
         return False
 
 def remove_check():
@@ -157,7 +379,7 @@ def remove_check():
 
 def remove_turn(index):
     if button_state_list[index] == 0 or current_parameter.whoseturn == button_state_list[index]:
-        messagebox.showwarning("", "Not a valid selection")
+        messagebox.showwarning("", "Cannot be removed")
         return False
     else:
         button_state_list[index] = 0
@@ -165,10 +387,10 @@ def remove_turn(index):
         current_parameter.state = 0
         if current_parameter.whoseturn == 1:
             button_list[index].config(image=xb_image)
-            current_parameter.xpp -= 1
+            current_parameter.vpp -= 1
         if current_parameter.whoseturn == 2:
             button_list[index].config(image=vb_image)
-            current_parameter.vpp -= 1
+            current_parameter.xpp -= 1
         return True
 
 def turn_change():
@@ -193,9 +415,6 @@ def board_change():
         if button_state_list[i] == 0 and current_parameter.whoseturn == 2:
             e.config(image=vb_image)
         i+=1
-
-def remove():
-    pass
 
 def state_check():
     if current_parameter.state == 0:
@@ -510,83 +729,10 @@ coord_d = Label(text="d")
 coord_e = Label(text="e")
 coord_f = Label(text="f")
 coord_g = Label(text="g")
-button1a_state = 0
-button1d_state = 0
-button1g_state = 0
-button2b_state = 0
-button2d_state = 0
-button2f_state = 0
-button3c_state = 0
-button3d_state = 0
-button3e_state = 0
-button4a_state = 0
-button4b_state = 0
-button4c_state = 0
-button4e_state = 0
-button4f_state = 0
-button4g_state = 0
-button5c_state = 0
-button5d_state = 0
-button5e_state = 0
-button6b_state = 0
-button6d_state = 0
-button6f_state = 0
-button7a_state = 0
-button7d_state = 0
-button7g_state = 0
-button1a_checked = 0
-button1d_checked = 0
-button1g_checked = 0
-button2b_checked = 0
-button2d_checked = 0
-button2f_checked = 0
-button3c_checked = 0
-button3d_checked = 0
-button3e_checked = 0
-button4a_checked = 0
-button4b_checked = 0
-button4c_checked = 0
-button4e_checked = 0
-button4f_checked = 0
-button4g_checked = 0
-button5c_checked = 0
-button5d_checked = 0
-button5e_checked = 0
-button6b_checked = 0
-button6d_checked = 0
-button6f_checked = 0
-button7a_checked = 0
-button7d_checked = 0
-button7g_checked = 0
-button_state_list = [button1a_state, button1d_state, button1g_state,
-                    button2b_state, button2d_state, button2f_state,
-                    button3c_state, button3d_state, button3e_state,
-                    button4a_state, button4b_state, button4c_state,
-                    button4e_state, button4f_state, button4g_state,
-                    button5c_state, button5d_state, button5e_state,
-                    button6b_state, button6d_state, button6f_state,
-                    button7a_state, button7d_state, button7g_state]
-button_checked_list = [button1a_checked, button1d_checked, button1g_checked,
-                    button2b_checked, button2d_checked, button2f_checked,
-                    button3c_checked, button3d_checked, button3e_checked,
-                    button4a_checked, button4b_checked, button4c_checked,
-                    button4e_checked, button4f_checked, button4g_checked,
-                    button5c_checked, button5d_checked, button5e_checked,
-                    button6b_checked, button6d_checked, button6f_checked,
-                    button7a_checked, button7d_checked, button7g_checked]
+button_state_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+button_checked_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 start_interface()
 window_center()
-if randint(1,10)%2 == 0:
-    current_parameter.whoseturn = 1 # x
-    turn_image.config(image=x_image)
-    for e in button_list:
-        e.config(image=xb_image)
-else:
-    current_parameter.whoseturn = 2 # v
-    turn_image.config(image=v_image)
-    for e in button_list:
-        e.config(image=vb_image)
-current_parameter.state = 0
-action_image.config(image=a_image)
+start_game()
 program.mainloop()
