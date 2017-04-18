@@ -176,182 +176,39 @@ def select_check(index):
             i+=1
         return True
     else:
-        if index == 0 and (button_state_list[9] == 0 or button_state_list[1] == 0):
-            if button_state_list[9] == 0:
-                current_parameter.move.append(9)
-            if button_state_list[1] == 0:
-                current_parameter.move.append(1)  
-            return True
-        if index == 1 and (button_state_list[0] == 0 or button_state_list[2] == 0 or button_state_list[4] == 0):
-            if button_state_list[0] == 0:
-                current_parameter.move.append(0)
-            if button_state_list[2] == 0:
-                current_parameter.move.append(2)
-            if button_state_list[4] == 0:
-                current_parameter.move.append(4) 
-            return True
-        if index == 2 and (button_state_list[1] == 0 or button_state_list[14] == 0):
-            if button_state_list[1] == 0:
-                current_parameter.move.append(1)
-            if button_state_list[14] == 0:
-                current_parameter.move.append(14)
-            return True
-        if index == 3 and (button_state_list[4] == 0 or button_state_list[10] == 0):
-            if button_state_list[4] == 0:
-                current_parameter.move.append(4)
-            if button_state_list[10] == 0:
-                current_parameter.move.append(10)
-            return True
-        if index == 4 and (button_state_list[1] == 0 or button_state_list[3] == 0 or button_state_list[5] == 0 or button_state_list[7] == 0):
-            if button_state_list[1] == 0:
-                current_parameter.move.append(1)
-            if button_state_list[3] == 0:
-                current_parameter.move.append(3)
-            if button_state_list[5] == 0:
-                current_parameter.move.append(5) 
-            if button_state_list[7] == 0:
-                current_parameter.move.append(7) 
-            return True
-        if index == 5 and (button_state_list[4] == 0 or button_state_list[13] == 0):
-            if button_state_list[4] == 0:
-                current_parameter.move.append(4)
-            if button_state_list[13] == 0:
-                current_parameter.move.append(13)
-            return True
-        if index == 6 and (button_state_list[11] == 0 or button_state_list[7] == 0):
-            if button_state_list[11] == 0:
-                current_parameter.move.append(11)
-            if button_state_list[7] == 0:
-                current_parameter.move.append(7) 
-            return True
-        if index == 7 and (button_state_list[4] == 0 or button_state_list[6] == 0 or button_state_list[8] == 0):
-            if button_state_list[4] == 0:
-                current_parameter.move.append(4)
-            if button_state_list[6] == 0:
-                current_parameter.move.append(6)
-            if button_state_list[8] == 0:
-                current_parameter.move.append(8) 
-            return True
-        if index == 8 and (button_state_list[12] == 0 or button_state_list[7] == 0):
-            if button_state_list[12] == 0:
-                current_parameter.move.append(12)
-            if button_state_list[7] == 0:
-                current_parameter.move.append(7) 
-            return True
-        if index == 9 and (button_state_list[0] == 0 or button_state_list[10] == 0 or button_state_list[21] == 0):
-            if button_state_list[10] == 0:
-                current_parameter.move.append(10)
-            if button_state_list[0] == 0:
-                current_parameter.move.append(0)
-            if button_state_list[21] == 0:
-                current_parameter.move.append(21) 
-            return True
-        if index == 10 and (button_state_list[3] == 0 or button_state_list[9] == 0 or button_state_list[11] == 0 or button_state_list[18] == 0):
-            if button_state_list[9] == 0:
-                current_parameter.move.append(9)
-            if button_state_list[3] == 0:
-                current_parameter.move.append(3)
-            if button_state_list[11] == 0:
-                current_parameter.move.append(11) 
-            if button_state_list[18] == 0:
-                current_parameter.move.append(18) 
-            return True
-        if index == 11 and (button_state_list[10] == 0 or button_state_list[6] == 0 or button_state_list[15] == 0):
-            if button_state_list[10] == 0:
-                current_parameter.move.append(10)
-            if button_state_list[6] == 0:
-                current_parameter.move.append(6)
-            if button_state_list[15] == 0:
-                current_parameter.move.append(15)
-            return True
-        if index == 12 and (button_state_list[13] == 0 or button_state_list[8] == 0 or button_state_list[17] == 0):
-            if button_state_list[13] == 0:
-                current_parameter.move.append(13)
-            if button_state_list[8] == 0:
-                current_parameter.move.append(8)
-            if button_state_list[17] == 0:
-                current_parameter.move.append(17) 
-            return True
-        if index == 13 and (button_state_list[12] == 0 or button_state_list[5] == 0 or button_state_list[20] == 0 or button_state_list[14] == 0):
-            if button_state_list[12] == 0:
-                current_parameter.move.append(12)
-            if button_state_list[5] == 0:
-                current_parameter.move.append(5) 
-            if button_state_list[20] == 0:
-                current_parameter.move.append(20)
-            if button_state_list[14] == 0:
-                current_parameter.move.append(14) 
-            return True
-        if index == 14 and (button_state_list[13] == 0 or button_state_list[23] == 0 or button_state_list[2] == 0):
-            if button_state_list[13] == 0:
-                current_parameter.move.append(13)
-            if button_state_list[23] == 0:
-                current_parameter.move.append(23)
-            if button_state_list[2] == 0:
-                current_parameter.move.append(2) 
-            return True
-        if index == 15 and (button_state_list[11] == 0 or button_state_list[16] == 0):
-            if button_state_list[11] == 0:
-                current_parameter.move.append(11)
-            if button_state_list[16] == 0:
-                current_parameter.move.append(16)
-            return True
-        if index == 16 and (button_state_list[15] == 0 or button_state_list[19] == 0 or button_state_list[17] == 0):
-            if button_state_list[15] == 0:
-                current_parameter.move.append(15)
-            if button_state_list[19] == 0:
-                current_parameter.move.append(19)
-            if button_state_list[17] == 0:
-                current_parameter.move.append(17) 
-            return True
-        if index == 17 and (button_state_list[12] == 0 or button_state_list[16] == 0):
-            if button_state_list[12] == 0:
-                current_parameter.move.append(12)
-            if button_state_list[16] == 0:
-                current_parameter.move.append(16)
-            return True
-        if index == 18 and (button_state_list[10] == 0 or button_state_list[19] == 0):
-            if button_state_list[10] == 0:
-                current_parameter.move.append(10)
-            if button_state_list[19] == 0:
-                current_parameter.move.append(19)
-            return True
-        if index == 19 and (button_state_list[18] == 0 or button_state_list[16] == 0 or button_state_list[22] == 0 or button_state_list[20] == 0):
-            if button_state_list[18] == 0:
-                current_parameter.move.append(18)
-            if button_state_list[16] == 0:
-                current_parameter.move.append(16)
-            if button_state_list[22] == 0:
-                current_parameter.move.append(22) 
-            if button_state_list[20] == 0:
-                current_parameter.move.append(20) 
-            return True
-        if index == 20 and (button_state_list[19] == 0 or button_state_list[13] == 0):
-            if button_state_list[19] == 0:
-                current_parameter.move.append(19)
-            if button_state_list[13] == 0:
-                current_parameter.move.append(13)
-            return True
-        if index == 21 and (button_state_list[9] == 0 or button_state_list[22] == 0):
-            if button_state_list[9] == 0:
-                current_parameter.move.append(9)
-            if button_state_list[22] == 0:
-                current_parameter.move.append(22)
-            return True
-        if index == 22 and (button_state_list[21] == 0 or button_state_list[19] == 0 or button_state_list[23] == 0):
-            if button_state_list[21] == 0:
-                current_parameter.move.append(21)
-            if button_state_list[19] == 0:
-                current_parameter.move.append(19)
-            if button_state_list[23] == 0:
-                current_parameter.move.append(23) 
-            return True
-        if index == 23 and (button_state_list[14] == 0 or button_state_list[22] == 0):
-            if button_state_list[14] == 0:
-                current_parameter.move.append(14)
-            if button_state_list[22] == 0:
-                current_parameter.move.append(22)
-            return True
+        select_check_list2 = [[0,1,9], [2,1,14], [3,4,10], [5,4,13], [6,7,11], [8,7,12],
+                            [15,11,16], [17,12,16], [18,10,19], [20,13,19], [21,9,22],
+                            [23,14,22]]
+        for e in select_check_list2:
+            if index == e[0] and (button_state_list[e[1]] == 0 or button_state_list[e[2]] == 0):
+                if button_state_list[e[1]] == 0:
+                    current_parameter.move.append(e[1])
+                if button_state_list[e[2]] == 0:
+                    current_parameter.move.append(e[2])  
+                return True
+        select_check_list3 = [[1,0,2,4], [7,4,6,8], [9,0,10,21], [11,6,10,15], [12,8,13,17],
+                            [14,2,13,23], [16,15,17,19], [19,16,18,22], [22,19,21,23]]
+        for e in select_check_list3:
+            if index == e[0] and (button_state_list[e[1]] == 0 or button_state_list[e[2]] == 0 or button_state_list[e[3]] == 0):
+                if button_state_list[e[1]] == 0:
+                    current_parameter.move.append(e[1])
+                if button_state_list[e[2]] == 0:
+                    current_parameter.move.append(e[2])
+                if button_state_list[e[3]] == 0:
+                    current_parameter.move.append(e[3]) 
+                return True
+        select_check_list4 = [[4,1,3,5,7], [10,3,9,11,18], [13,5,12,14,20], [19,16,18,20,22]]
+        for e in select_check_list4:
+            if index == e[0] and (button_state_list[e[1]] == 0 or button_state_list[e[2]] == 0 or button_state_list[e[3]] == 0 or button_state_list[e[4]] == 0):
+                if button_state_list[e[1]] == 0:
+                    current_parameter.move.append(e[1])
+                if button_state_list[e[2]] == 0:
+                    current_parameter.move.append(e[2])
+                if button_state_list[e[3]] == 0:
+                    current_parameter.move.append(e[3]) 
+                if button_state_list[e[4]] == 0:
+                    current_parameter.move.append(e[4]) 
+                return True
     return False
 
 def move_turn(new, old):
@@ -381,262 +238,23 @@ def remove_check(index):
             if e != current_parameter.whoseturn and e != 0:
                 current_parameter.remove.append(i)
             i+=1
-        if button_state_list[0] == button_state_list[1] and\
-        button_state_list[0] == button_state_list[2] and\
-        button_state_list[1] == button_state_list[2] and\
-        button_state_list[0] != 0:
-            try:
-                current_parameter.remove.remove(0)
-            except ValueError:
-                pass            
-            try:
-                current_parameter.remove.remove(1)
-            except ValueError:
-                pass           
-            try:
-                current_parameter.remove.remove(2)
-            except ValueError:
-                pass
-        if button_state_list[3] == button_state_list[4] and\
-        button_state_list[3] == button_state_list[5] and\
-        button_state_list[4] == button_state_list[5] and\
-        button_state_list[3] != 0:
-            try:
-                current_parameter.remove.remove(3)
-            except ValueError:
-                pass            
-            try:
-                current_parameter.remove.remove(4)
-            except ValueError:
-                pass            
-            try:
-                current_parameter.remove.remove(5)
-            except ValueError:
-                pass        
-        if button_state_list[6] == button_state_list[7] and\
-        button_state_list[6] == button_state_list[8] and\
-        button_state_list[7] == button_state_list[8] and\
-        button_state_list[6] != 0:
-            try:
-                current_parameter.remove.remove(6)
-            except ValueError:
-                pass            
-            try:
-                current_parameter.remove.remove(7)
-            except ValueError:
-                pass            
-            try:
-                current_parameter.remove.remove(8)
-            except ValueError:
-                pass        
-        if button_state_list[9] == button_state_list[10] and\
-        button_state_list[9] == button_state_list[11] and\
-        button_state_list[10] == button_state_list[11] and\
-        button_state_list[9] != 0:
-            try:
-                current_parameter.remove.remove(9)
-            except ValueError:
-                pass            
-            try:
-                current_parameter.remove.remove(10)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(11)
-            except ValueError:
-                pass
-        if button_state_list[12] == button_state_list[13] and\
-        button_state_list[12] == button_state_list[14] and\
-        button_state_list[13] == button_state_list[14] and\
-        button_state_list[12] != 0:
-            try:
-                current_parameter.remove.remove(12)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(13)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(14)
-            except ValueError:
-                pass
-        if button_state_list[15] == button_state_list[16] and\
-        button_state_list[15] == button_state_list[17] and\
-        button_state_list[16] == button_state_list[17] and\
-        button_state_list[15] != 0:
-            try:
-                current_parameter.remove.remove(15)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(16)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(17)
-            except ValueError:
-                pass
-        if button_state_list[18] == button_state_list[19] and\
-        button_state_list[18] == button_state_list[20] and\
-        button_state_list[19] == button_state_list[20] and\
-        button_state_list[19] != 0:
-            try:
-                current_parameter.remove.remove(18)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(19)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(20)
-            except ValueError:
-                pass
-        if button_state_list[21] == button_state_list[22] and\
-        button_state_list[21] == button_state_list[23] and\
-        button_state_list[22] == button_state_list[23] and\
-        button_state_list[21] != 0:
-            try:
-                current_parameter.remove.remove(21)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(22)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(23)
-            except ValueError:
-                pass
-        if button_state_list[0] == button_state_list[9] and\
-        button_state_list[0] == button_state_list[21] and\
-        button_state_list[9] == button_state_list[21] and\
-        button_state_list[0] != 0:
-            try:
-                current_parameter.remove.remove(0)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(9)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(21)
-            except ValueError:
-                pass
-        if button_state_list[18] == button_state_list[10] and\
-        button_state_list[18] == button_state_list[3] and\
-        button_state_list[10] == button_state_list[3] and\
-        button_state_list[18] != 0:
-            try:
-                current_parameter.remove.remove(3)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(10)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(18)
-            except ValueError:
-                pass
-        if button_state_list[15] == button_state_list[11] and\
-        button_state_list[15] == button_state_list[6] and\
-        button_state_list[11] == button_state_list[6] and\
-        button_state_list[15] != 0:
-            try:
-                current_parameter.remove.remove(6)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(11)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(15)
-            except ValueError:
-                pass
-        if button_state_list[22] == button_state_list[19] and\
-        button_state_list[22] == button_state_list[16] and\
-        button_state_list[19] == button_state_list[16] and\
-        button_state_list[22] != 0:
-            try:
-                current_parameter.remove.remove(16)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(19)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(22)
-            except ValueError:
-                pass
-        if button_state_list[7] == button_state_list[4] and\
-        button_state_list[7] == button_state_list[1] and\
-        button_state_list[4] == button_state_list[1] and\
-        button_state_list[7] != 0:
-            try:
-                current_parameter.remove.remove(4)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(1)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(7)
-            except ValueError:
-                pass
-        if button_state_list[17] == button_state_list[12] and\
-        button_state_list[17] == button_state_list[8] and\
-        button_state_list[12] == button_state_list[8] and\
-        button_state_list[17] != 0:
-            try:
-                current_parameter.remove.remove(8)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(12)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(17)
-            except ValueError:
-                pass
-        if button_state_list[20] == button_state_list[13] and\
-        button_state_list[20] == button_state_list[5] and\
-        button_state_list[13] == button_state_list[5] and\
-        button_state_list[20] != 0:
-            try:
-                current_parameter.remove.remove(20)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(13)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(5)
-            except ValueError:
-                pass
-        if button_state_list[23] == button_state_list[14] and\
-        button_state_list[23] == button_state_list[2] and\
-        button_state_list[14] == button_state_list[2] and\
-        button_state_list[23] != 0:
-            try:
-                current_parameter.remove.remove(2)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(14)
-            except ValueError:
-                pass
-            try:
-                current_parameter.remove.remove(23)
-            except ValueError:
-                pass
+        for e in index_check_list:
+            if button_state_list[e[0]] == button_state_list[e[1]] and\
+            button_state_list[e[0]] == button_state_list[e[2]] and\
+            button_state_list[e[1]] == button_state_list[e[2]] and\
+            button_state_list[e[0]] != 0:
+                try:
+                    current_parameter.remove.remove(e[0])
+                except ValueError:
+                    pass            
+                try:
+                    current_parameter.remove.remove(e[1])
+                except ValueError:
+                    pass           
+                try:
+                    current_parameter.remove.remove(e[2])
+                except ValueError:
+                    pass
         if current_parameter.remove == []:
             current_parameter.remove = list(range(24))
 
@@ -708,198 +326,19 @@ def place(player, index):
         return True
 
 def board_check():
-    if button_state_list[0] == button_state_list[1] and\
-        button_state_list[0] == button_state_list[2] and\
-        button_state_list[1] == button_state_list[2] and\
-        button_state_list[0] != 0 and\
-        (button_checked_list[0] == 0 or\
-        button_checked_list[1] == 0 or\
-        button_checked_list[2] == 0):
-        button_checked_list[0] = 1
-        button_checked_list[1] = 1
-        button_checked_list[2] = 1
-        current_parameter.state = 3
-        return True
-    if button_state_list[3] == button_state_list[4] and\
-        button_state_list[3] == button_state_list[5] and\
-        button_state_list[4] == button_state_list[5] and\
-        button_state_list[3] != 0 and\
-        (button_checked_list[3] == 0 or\
-        button_checked_list[4] == 0 or\
-        button_checked_list[5] == 0):
-        button_checked_list[3] = 1
-        button_checked_list[4] = 1
-        button_checked_list[5] = 1
-        current_parameter.state = 3
-        return True
-    if button_state_list[6] == button_state_list[7] and\
-        button_state_list[6] == button_state_list[8] and\
-        button_state_list[7] == button_state_list[8] and\
-        button_state_list[6] != 0 and\
-        (button_checked_list[6] == 0 or\
-        button_checked_list[7] == 0 or\
-        button_checked_list[8] == 0):
-        button_checked_list[6] = 1
-        button_checked_list[7] = 1
-        button_checked_list[8] = 1
-        current_parameter.state = 3
-        return True
-    if button_state_list[9] == button_state_list[10] and\
-        button_state_list[9] == button_state_list[11] and\
-        button_state_list[10] == button_state_list[11] and\
-        button_state_list[9] != 0 and\
-        (button_checked_list[9] == 0 or\
-        button_checked_list[10] == 0 or\
-        button_checked_list[11] == 0):
-        button_checked_list[9] = 1
-        button_checked_list[10] = 1
-        button_checked_list[11] = 1
-        current_parameter.state = 3
-        return True
-    if button_state_list[12] == button_state_list[13] and\
-        button_state_list[12] == button_state_list[14] and\
-        button_state_list[13] == button_state_list[14] and\
-        button_state_list[12] != 0 and\
-        (button_checked_list[12] == 0 or\
-        button_checked_list[13] == 0 or\
-        button_checked_list[14] == 0):
-        button_checked_list[12] = 1
-        button_checked_list[13] = 1
-        button_checked_list[14] = 1
-        current_parameter.state = 3
-        return True
-    if button_state_list[15] == button_state_list[16] and\
-        button_state_list[15] == button_state_list[17] and\
-        button_state_list[16] == button_state_list[17] and\
-        button_state_list[15] != 0 and\
-        (button_checked_list[15] == 0 or\
-        button_checked_list[16] == 0 or\
-        button_checked_list[17] == 0):
-        button_checked_list[15] = 1
-        button_checked_list[16] = 1
-        button_checked_list[17] = 1
-        current_parameter.state = 3
-        return True
-    if button_state_list[18] == button_state_list[19] and\
-        button_state_list[18] == button_state_list[20] and\
-        button_state_list[19] == button_state_list[20] and\
-        button_state_list[19] != 0 and\
-        (button_checked_list[18] == 0 or\
-        button_checked_list[19] == 0 or\
-        button_checked_list[20] == 0):
-        button_checked_list[18] = 1
-        button_checked_list[19] = 1
-        button_checked_list[20] = 1
-        current_parameter.state = 3
-        return True
-    if button_state_list[21] == button_state_list[22] and\
-        button_state_list[21] == button_state_list[23] and\
-        button_state_list[22] == button_state_list[23] and\
-        button_state_list[21] != 0 and\
-        (button_checked_list[21] == 0 or\
-        button_checked_list[22] == 0 or\
-        button_checked_list[23] == 0):
-        button_checked_list[21] = 1
-        button_checked_list[22] = 1
-        button_checked_list[23] = 1
-        current_parameter.state = 3
-        return True
-    if button_state_list[0] == button_state_list[9] and\
-        button_state_list[0] == button_state_list[21] and\
-        button_state_list[9] == button_state_list[21] and\
-        button_state_list[0] != 0 and\
-        (button_checked_list[0] == 0 or\
-        button_checked_list[9] == 0 or\
-        button_checked_list[21] == 0):
-        button_checked_list[0] = 1
-        button_checked_list[9] = 1
-        button_checked_list[21] = 1
-        current_parameter.state = 3
-        return True
-    if button_state_list[18] == button_state_list[10] and\
-        button_state_list[18] == button_state_list[3] and\
-        button_state_list[10] == button_state_list[3] and\
-        button_state_list[18] != 0 and\
-        (button_checked_list[18] == 0 or\
-        button_checked_list[10] == 0 or\
-        button_checked_list[3] == 0):
-        button_checked_list[18] = 1
-        button_checked_list[10] = 1
-        button_checked_list[3] = 1
-        current_parameter.state = 3
-        return True
-    if button_state_list[15] == button_state_list[11] and\
-        button_state_list[15] == button_state_list[6] and\
-        button_state_list[11] == button_state_list[6] and\
-        button_state_list[15] != 0 and\
-        (button_checked_list[11] == 0 or\
-        button_checked_list[6] == 0 or\
-        button_checked_list[15] == 0):
-        button_checked_list[6] = 1
-        button_checked_list[11] = 1
-        button_checked_list[15] = 1
-        current_parameter.state = 3
-        return True
-    if button_state_list[22] == button_state_list[19] and\
-        button_state_list[22] == button_state_list[16] and\
-        button_state_list[19] == button_state_list[16] and\
-        button_state_list[22] != 0 and\
-        (button_checked_list[22] == 0 or\
-        button_checked_list[19] == 0 or\
-        button_checked_list[16] == 0):
-        button_checked_list[16] = 1
-        button_checked_list[19] = 1
-        button_checked_list[22] = 1
-        current_parameter.state = 3
-        return True
-    if button_state_list[7] == button_state_list[4] and\
-        button_state_list[7] == button_state_list[1] and\
-        button_state_list[4] == button_state_list[1] and\
-        button_state_list[7] != 0 and\
-        (button_checked_list[4] == 0 or\
-        button_checked_list[7] == 0 or\
-        button_checked_list[1] == 0):
-        button_checked_list[4] = 1
-        button_checked_list[1] = 1
-        button_checked_list[7] = 1
-        current_parameter.state = 3
-        return True
-    if button_state_list[17] == button_state_list[12] and\
-        button_state_list[17] == button_state_list[8] and\
-        button_state_list[12] == button_state_list[8] and\
-        button_state_list[17] != 0 and\
-        (button_checked_list[17] == 0 or\
-        button_checked_list[12] == 0 or\
-        button_checked_list[8] == 0):
-        button_checked_list[17] = 1
-        button_checked_list[12] = 1
-        button_checked_list[8] = 1
-        current_parameter.state = 3
-        return True
-    if button_state_list[20] == button_state_list[13] and\
-        button_state_list[20] == button_state_list[5] and\
-        button_state_list[13] == button_state_list[5] and\
-        button_state_list[20] != 0 and\
-        (button_checked_list[13] == 0 or\
-        button_checked_list[20] == 0 or\
-        button_checked_list[5] == 0):
-        button_checked_list[20] = 1
-        button_checked_list[5] = 1
-        button_checked_list[13] = 1
-        current_parameter.state = 3
-        return True
-    if button_state_list[23] == button_state_list[14] and\
-        button_state_list[23] == button_state_list[2] and\
-        button_state_list[14] == button_state_list[2] and\
-        button_state_list[23] != 0 and\
-        (button_checked_list[23] == 0 or\
-        button_checked_list[14] == 0 or\
-        button_checked_list[2] == 0):
-        button_checked_list[23] = 1
-        button_checked_list[14] = 1
-        button_checked_list[2] = 1
-        current_parameter.state = 3
-        return True
+    for e in index_check_list:
+        if button_state_list[e[0]] == button_state_list[e[1]] and\
+            button_state_list[e[0]] == button_state_list[e[2]] and\
+            button_state_list[e[1]] == button_state_list[e[2]] and\
+            button_state_list[e[0]] != 0 and\
+            (button_checked_list[e[0]] == 0 or\
+            button_checked_list[e[1]] == 0 or\
+            button_checked_list[e[2]] == 0):
+            button_checked_list[e[0]] = 1
+            button_checked_list[e[1]] = 1
+            button_checked_list[e[2]] = 1
+            current_parameter.state = 3
+            return True
     return False
 
 v_image = PhotoImage(file="images/v.gif").subsample(2,2)
@@ -996,6 +435,10 @@ coord_f = Label(text="f")
 coord_g = Label(text="g")
 button_state_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 button_checked_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+index_check_list = [[0,1,2], [3,4,5], [6,7,8], [9,10,11], [12,13,14], 
+                        [15,16,17], [18,19,20], [21,22,23], [0,9,21],
+                        [3,10,18], [6,11,15], [16,19,22], [1,4,7], [8,12,17],
+                        [5,13,20], [2,14,23]]
 
 start_interface()
 window_center()
