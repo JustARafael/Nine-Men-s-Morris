@@ -145,7 +145,7 @@ def reset():
     start_game()      
 
 def select_turn(index):
-    if button_state_list[index] != current_parameter.whoseturn or not select_check(index):
+    if button_state_list[index] != current_parameter.whoseturn or not select_check(index, 0):
         messagebox.showwarning("", "Cannot select this")
         return False
     else:
@@ -163,83 +163,79 @@ def move_check(num):
     if move_index == []:
         return False
     for e in move_index:
-        move_check_func(e)
+        select_check(e, 1)
     if current_parameter.move_check == []:
         return True
     else:
         current_parameter.move_check = []
         return False
 
-def move_check_func(index):
+def select_check(index, num ):
     if (current_parameter.whoseturn == 1 and current_parameter.xpp == 3) or\
         (current_parameter.whoseturn == 2 and current_parameter.vpp == 3):
         i=0
         for e in button_state_list:
             if e == 0:
-                current_parameter.move_check.append(i)
-            i+=1
-    else:
-        for e in select_check_list2:
-            if index == e[0] and (button_state_list[e[1]] == 0 or button_state_list[e[2]] == 0):
-                if button_state_list[e[1]] == 0:
-                    current_parameter.move_check.append(e[1])
-                if button_state_list[e[2]] == 0:
-                    current_parameter.move_check.append(e[2])  
-        for e in select_check_list3:
-            if index == e[0] and (button_state_list[e[1]] == 0 or button_state_list[e[2]] == 0 or button_state_list[e[3]] == 0):
-                if button_state_list[e[1]] == 0:
-                    current_parameter.move_check.append(e[1])
-                if button_state_list[e[2]] == 0:
-                    current_parameter.move_check.append(e[2])
-                if button_state_list[e[3]] == 0:
-                    current_parameter.move_check.append(e[3]) 
-        for e in select_check_list4:
-            if index == e[0] and (button_state_list[e[1]] == 0 or button_state_list[e[2]] == 0 or button_state_list[e[3]] == 0 or button_state_list[e[4]] == 0):
-                if button_state_list[e[1]] == 0:
-                    current_parameter.move_check.append(e[1])
-                if button_state_list[e[2]] == 0:
-                    current_parameter.move_check.append(e[2])
-                if button_state_list[e[3]] == 0:
-                    current_parameter.move_check.append(e[3]) 
-                if button_state_list[e[4]] == 0:
-                    current_parameter.move_check.append(e[4]) 
-
-def select_check(index):
-    if (current_parameter.whoseturn == 1 and current_parameter.xpp == 3) or\
-        (current_parameter.whoseturn == 2 and current_parameter.vpp == 3):
-        i=0
-        for e in button_state_list:
-            if e == 0:
-                current_parameter.move.append(i)
+                if num == 0:
+                    current_parameter.move.append(i)
+                else:
+                    current_parameter.move_check.append(i)
             i+=1
         return True
     else:
         for e in select_check_list2:
             if index == e[0] and (button_state_list[e[1]] == 0 or button_state_list[e[2]] == 0):
                 if button_state_list[e[1]] == 0:
-                    current_parameter.move.append(e[1])
+                    if num == 0:
+                        current_parameter.move.append(e[1])
+                    else:
+                        current_parameter.move_check.append(e[1])
                 if button_state_list[e[2]] == 0:
-                    current_parameter.move.append(e[2])  
+                    if num == 0:
+                        current_parameter.move.append(e[2]) 
+                    else:
+                        current_parameter.move_check.append(e[2]) 
                 return True
         for e in select_check_list3:
             if index == e[0] and (button_state_list[e[1]] == 0 or button_state_list[e[2]] == 0 or button_state_list[e[3]] == 0):
                 if button_state_list[e[1]] == 0:
-                    current_parameter.move.append(e[1])
+                    if num == 0:
+                        current_parameter.move.append(e[1])
+                    else:
+                        current_parameter.move_check.append(e[1])
                 if button_state_list[e[2]] == 0:
-                    current_parameter.move.append(e[2])
+                    if num == 0:
+                        current_parameter.move.append(e[2])
+                    else:
+                        current_parameter.move_check.append(e[2])
                 if button_state_list[e[3]] == 0:
-                    current_parameter.move.append(e[3]) 
+                    if num == 0:
+                        current_parameter.move.append(e[3])
+                    else:
+                        current_parameter.move_check.append(e[3]) 
                 return True
         for e in select_check_list4:
             if index == e[0] and (button_state_list[e[1]] == 0 or button_state_list[e[2]] == 0 or button_state_list[e[3]] == 0 or button_state_list[e[4]] == 0):
                 if button_state_list[e[1]] == 0:
-                    current_parameter.move.append(e[1])
+                    if num == 0:
+                        current_parameter.move.append(e[1])
+                    else:
+                        current_parameter.move_check.append(e[1])
                 if button_state_list[e[2]] == 0:
-                    current_parameter.move.append(e[2])
+                    if num == 0:
+                        current_parameter.move.append(e[2])
+                    else:
+                        current_parameter.move_check.append(e[2])
                 if button_state_list[e[3]] == 0:
-                    current_parameter.move.append(e[3]) 
+                    if num == 0:
+                        current_parameter.move.append(e[3])
+                    else:
+                        current_parameter.move_check.append(e[3]) 
                 if button_state_list[e[4]] == 0:
-                    current_parameter.move.append(e[4]) 
+                    if num == 0:
+                        current_parameter.move.append(e[4])
+                    else:
+                        current_parameter.move_check.append(e[4]) 
                 return True
     return False
 
