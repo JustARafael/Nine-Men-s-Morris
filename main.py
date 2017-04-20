@@ -14,8 +14,12 @@ class parameter:
         self.vpp = 0
         self.vap = 9
         self.move = []
+        self.move_check = []
         self.remove = []
         self.select = -1
+        self.ai = 0 # 0: Player vs. Player
+                    # 1: Player vs. Machine
+        self.aiturn = 0
         self.state = -1 # 0: add
                         # 1: select
                         # 2: move
@@ -24,40 +28,12 @@ class parameter:
 global current_parameter
 current_parameter = parameter()
 
-def print_checked():
-    print(str(button_checked_list[21])+"  "+str(button_checked_list[22])+"  "+str(button_checked_list[23]))
-    print(" "+str(button_checked_list[18])+" "+str(button_checked_list[19])+" "+str(button_checked_list[20])+" ")
-    print("  "+str(button_checked_list[15])+str(button_checked_list[16])+str(button_checked_list[17])+"  ")
-    print(str(button_checked_list[9])+str(button_checked_list[10])+str(button_checked_list[11])+" "+
-            str(button_checked_list[12])+str(button_checked_list[13])+str(button_checked_list[14]))
-    print("  "+str(button_checked_list[6])+str(button_checked_list[7])+str(button_checked_list[8])+"  ")
-    print(" "+str(button_checked_list[3])+" "+str(button_checked_list[4])+" "+str(button_checked_list[5])+" ")
-    print(str(button_checked_list[0])+"  "+str(button_checked_list[1])+"  "+str(button_checked_list[2]))
-    print("-------")
-
-def print_state():
-    print(str(button_state_list[21])+"  "+str(button_state_list[22])+"  "+str(button_state_list[23]))
-    print(" "+str(button_state_list[18])+" "+str(button_state_list[19])+" "+str(button_state_list[20])+" ")
-    print("  "+str(button_state_list[15])+str(button_state_list[16])+str(button_state_list[17])+"  ")
-    print(str(button_state_list[9])+str(button_state_list[10])+str(button_state_list[11])+" "+
-            str(button_state_list[12])+str(button_state_list[13])+str(button_state_list[14]))
-    print("  "+str(button_state_list[6])+str(button_state_list[7])+str(button_state_list[8])+"  ")
-    print(" "+str(button_state_list[3])+" "+str(button_state_list[4])+" "+str(button_state_list[5])+" ")
-    print(str(button_state_list[0])+"  "+str(button_state_list[1])+"  "+str(button_state_list[2]))
-    print("-------")
-
-def window_center():
-    return
-    program.update()
-    # lines below this:
-    x = program.winfo_screenwidth()/2 - program.winfo_width()/2
-    y = program.winfo_screenheight()/2 - program.winfo_height()/2
-    program.geometry("+%d+%d" % (x, y))
-    # referenced from: https://bbs.archlinux.org/viewtopic.php?id=149559
-    # author: vadmium
-    # modified
+def reset_gui():
+    for widget in program.winfo_children():
+        widget.grid_remove()
 
 def start_interface():
+    reset_gui()
     button1a.grid(row=6, column=1)
     button1d.grid(row=6, column=4)
     button1g.grid(row=6, column=7)
@@ -96,17 +72,19 @@ def start_interface():
     coord_e.grid(row=7, column=5)
     coord_f.grid(row=7, column=6)
     coord_g.grid(row=7, column=7)
-    state_frame.grid(row=0, column=8, rowspan=9)
-    legend_frame.grid(row=8, column=0, columnspan=9)
+    state_frame.grid(row=0, column=8, rowspan=8)
+    legend_frame.grid(row=8, column=0, columnspan=8)
 
 def start_game():
     if randint(1,10)%2 == 0:
         current_parameter.whoseturn = 1 # x
+        current_parameter.aiturn = 1
         turn_image.config(image=x_image)
         for e in button_list:
             e.config(image=xb_image)
     else:
         current_parameter.whoseturn = 2 # v
+        current_parameter.aiturn = 2
         turn_image.config(image=v_image)
         for e in button_list:
             e.config(image=vb_image)
@@ -132,15 +110,21 @@ def op(state, index):
         board_change()
         state_check()
     if current_parameter.xpp == 2 and current_parameter.xap == 0:
-        for e in button_list:
-            e.config(image=v_image)
         messagebox.showinfo("", "Green Win")
         reset()
+        return
     if current_parameter.vpp == 2 and current_parameter.vap == 0:
-        for e in button_list:
-            e.config(image=x_image)
         messagebox.showinfo("", "Red Win")
         reset()
+        return
+    if move_check(1):
+        messagebox.showinfo("", "Green Win")
+        reset()
+        return
+    if move_check(2):
+        messagebox.showinfo("", "Red Win")
+        reset()
+        return
 
 def reset():
     current_parameter.xpp = 0
@@ -149,7 +133,10 @@ def reset():
     current_parameter.vap = 9
     current_parameter.move = []
     current_parameter.remove = []
+    current_parameter.move_check = []
     current_parameter.select = -1
+    current_parameter.ai = 0
+    current_parameter.aiturn = 0
     i=0
     while i<len(button_state_list):
         button_checked_list[i]=0
@@ -166,6 +153,57 @@ def select_turn(index):
         current_parameter.select = index
         return True
 
+def move_check(num):
+    move_index = []
+    i=0
+    for e in button_state_list:
+        if e == num:
+            move_index.append(i)
+        i+=1
+    if move_index == []:
+        return False
+    for e in move_index:
+        move_check_func(e)
+    if current_parameter.move_check == []:
+        return True
+    else:
+        current_parameter.move_check = []
+        return False
+
+def move_check_func(index):
+    if (current_parameter.whoseturn == 1 and current_parameter.xpp == 3) or\
+        (current_parameter.whoseturn == 2 and current_parameter.vpp == 3):
+        i=0
+        for e in button_state_list:
+            if e == 0:
+                current_parameter.move_check.append(i)
+            i+=1
+    else:
+        for e in select_check_list2:
+            if index == e[0] and (button_state_list[e[1]] == 0 or button_state_list[e[2]] == 0):
+                if button_state_list[e[1]] == 0:
+                    current_parameter.move_check.append(e[1])
+                if button_state_list[e[2]] == 0:
+                    current_parameter.move_check.append(e[2])  
+        for e in select_check_list3:
+            if index == e[0] and (button_state_list[e[1]] == 0 or button_state_list[e[2]] == 0 or button_state_list[e[3]] == 0):
+                if button_state_list[e[1]] == 0:
+                    current_parameter.move_check.append(e[1])
+                if button_state_list[e[2]] == 0:
+                    current_parameter.move_check.append(e[2])
+                if button_state_list[e[3]] == 0:
+                    current_parameter.move_check.append(e[3]) 
+        for e in select_check_list4:
+            if index == e[0] and (button_state_list[e[1]] == 0 or button_state_list[e[2]] == 0 or button_state_list[e[3]] == 0 or button_state_list[e[4]] == 0):
+                if button_state_list[e[1]] == 0:
+                    current_parameter.move_check.append(e[1])
+                if button_state_list[e[2]] == 0:
+                    current_parameter.move_check.append(e[2])
+                if button_state_list[e[3]] == 0:
+                    current_parameter.move_check.append(e[3]) 
+                if button_state_list[e[4]] == 0:
+                    current_parameter.move_check.append(e[4]) 
+
 def select_check(index):
     if (current_parameter.whoseturn == 1 and current_parameter.xpp == 3) or\
         (current_parameter.whoseturn == 2 and current_parameter.vpp == 3):
@@ -176,9 +214,6 @@ def select_check(index):
             i+=1
         return True
     else:
-        select_check_list2 = [[0,1,9], [2,1,14], [3,4,10], [5,4,13], [6,7,11], [8,7,12],
-                            [15,11,16], [17,12,16], [18,10,19], [20,13,19], [21,9,22],
-                            [23,14,22]]
         for e in select_check_list2:
             if index == e[0] and (button_state_list[e[1]] == 0 or button_state_list[e[2]] == 0):
                 if button_state_list[e[1]] == 0:
@@ -186,8 +221,6 @@ def select_check(index):
                 if button_state_list[e[2]] == 0:
                     current_parameter.move.append(e[2])  
                 return True
-        select_check_list3 = [[1,0,2,4], [7,4,6,8], [9,0,10,21], [11,6,10,15], [12,8,13,17],
-                            [14,2,13,23], [16,15,17,19], [19,16,18,22], [22,19,21,23]]
         for e in select_check_list3:
             if index == e[0] and (button_state_list[e[1]] == 0 or button_state_list[e[2]] == 0 or button_state_list[e[3]] == 0):
                 if button_state_list[e[1]] == 0:
@@ -197,7 +230,6 @@ def select_check(index):
                 if button_state_list[e[3]] == 0:
                     current_parameter.move.append(e[3]) 
                 return True
-        select_check_list4 = [[4,1,3,5,7], [10,3,9,11,18], [13,5,12,14,20], [19,16,18,20,22]]
         for e in select_check_list4:
             if index == e[0] and (button_state_list[e[1]] == 0 or button_state_list[e[2]] == 0 or button_state_list[e[3]] == 0 or button_state_list[e[4]] == 0):
                 if button_state_list[e[1]] == 0:
@@ -341,6 +373,19 @@ def board_check():
             return True
     return False
 
+def mode_selection():
+    pvp_mode.grid(row=0, column=0)
+    pvc_mode.grid(row=0, column=1)
+
+def pvp():
+    start_interface()
+    start_game()
+
+def pvm():
+    current_parameter.ai = 1
+
+pvp_mode = Button(text="Player vs. Player", command=pvp)
+pvc_mode = Button(text="Player vs. Machine", command=None)
 v_image = PhotoImage(file="images/v.gif").subsample(2,2)
 x_image = PhotoImage(file="images/x.gif").subsample(2,2)
 vb_image = PhotoImage(file="images/vb.gif").subsample(2,2)
@@ -439,8 +484,12 @@ index_check_list = [[0,1,2], [3,4,5], [6,7,8], [9,10,11], [12,13,14],
                         [15,16,17], [18,19,20], [21,22,23], [0,9,21],
                         [3,10,18], [6,11,15], [16,19,22], [1,4,7], [8,12,17],
                         [5,13,20], [2,14,23]]
+select_check_list2 = [[0,1,9], [2,1,14], [3,4,10], [5,4,13], [6,7,11], [8,7,12],
+                    [15,11,16], [17,12,16], [18,10,19], [20,13,19], [21,9,22],
+                    [23,14,22]]
+select_check_list3 = [[1,0,2,4], [7,4,6,8], [9,0,10,21], [11,6,10,15], [12,8,13,17],
+                    [14,2,13,23], [16,15,17,19], [19,16,18,22], [22,19,21,23]]
+select_check_list4 = [[4,1,3,5,7], [10,3,9,11,18], [13,5,12,14,20], [19,16,18,20,22]]
 
-start_interface()
-window_center()
-start_game()
+mode_selection()
 program.mainloop()
