@@ -2,6 +2,8 @@ from tkinter import *
 from tkinter import messagebox
 from random import randint
 
+import air
+
 program=Tk()
 program.title("9 Men's Morris")
 program.resizable(width=False, height=False)
@@ -78,13 +80,13 @@ def start_interface():
 def start_game():
     if randint(1,10)%2 == 0:
         current_parameter.whoseturn = 1 # x
-        current_parameter.aiturn = 1
+        current_parameter.aiturn = 2
         turn_image.config(image=x_image)
         for e in button_list:
             e.config(image=xb_image)
     else:
         current_parameter.whoseturn = 2 # v
-        current_parameter.aiturn = 2
+        current_parameter.aiturn = 1
         turn_image.config(image=v_image)
         for e in button_list:
             e.config(image=vb_image)
@@ -109,6 +111,15 @@ def op(state, index):
             turn_change()
         board_change()
         state_check()
+    if current_parameter.ai == 1 and current_parameter.aiturn == current_parameter.whoseturn and\
+        current_parameter.state == 0:
+        op(current_parameter.state, air.add(button_state_list, current_parameter.aiturn))
+    if current_parameter.ai == 1 and current_parameter.aiturn == current_parameter.whoseturn and\
+        current_parameter.state == 3:
+        if current_parameter.aiturn == 2:
+            op(current_parameter.state, air.remove(button_state_list, current_parameter.aiturn, current_parameter.vap))
+        else:
+            op(current_parameter.state, air.remove(button_state_list, current_parameter.aiturn, current_parameter.xap))
     if current_parameter.xpp == 2 and current_parameter.xap == 0:
         messagebox.showinfo("", "Green Win")
         reset()
@@ -117,11 +128,11 @@ def op(state, index):
         messagebox.showinfo("", "Red Win")
         reset()
         return
-    if move_check(1):
+    if move_check(1) and current_parameter.xap == 0:
         messagebox.showinfo("", "Green Win")
         reset()
         return
-    if move_check(2):
+    if move_check(2) and current_parameter.vap == 0:
         messagebox.showinfo("", "Red Win")
         reset()
         return
@@ -352,6 +363,7 @@ def place(player, index):
             current_parameter.vap-=1
             current_parameter.vpp+=1
         return True
+    messagebox.showwarning("", "Can not place here")
 
 def board_check():
     for e in index_check_list:
@@ -379,9 +391,11 @@ def pvp():
 
 def pvm():
     current_parameter.ai = 1
+    start_interface()
+    start_game()
 
 pvp_mode = Button(text="Player vs. Player", command=pvp)
-pvc_mode = Button(text="Player vs. Machine", command=None)
+pvc_mode = Button(text="Player vs. Machine", command=pvm)
 v_image = PhotoImage(file="images/v.gif").subsample(2,2)
 x_image = PhotoImage(file="images/x.gif").subsample(2,2)
 vb_image = PhotoImage(file="images/vb.gif").subsample(2,2)
@@ -477,10 +491,10 @@ coord_g = Label(text="g")
 button_state_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 button_checked_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 index_check_list = [[0,1,2], [3,4,5], [6,7,8], [9,10,11], [12,13,14], 
-                        [15,16,17], [18,19,20], [21,22,23], [0,9,21],
-                        [3,10,18], [6,11,15], [16,19,22], [1,4,7], [8,12,17],
-                        [5,13,20], [2,14,23]]
-select_check_list2 = [[0,1,9], [2,1,14], [3,4,10], [5,4,13], [6,7,11], [8,7,12],
+                    [15,16,17], [18,19,20], [21,22,23], [0,9,21],
+                    [3,10,18], [6,11,15], [16,19,22], [1,4,7], [8,12,17],
+                    [5,13,20], [2,14,23]]
+select_check_list2 = [[0,1,9], [2,1,14], [3,4,10], [5,4,13], [6,7,11], [8,7,12], 
                     [15,11,16], [17,12,16], [18,10,19], [20,13,19], [21,9,22],
                     [23,14,22]]
 select_check_list3 = [[1,0,2,4], [7,4,6,8], [9,0,10,21], [11,6,10,15], [12,8,13,17],
