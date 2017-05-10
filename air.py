@@ -120,7 +120,7 @@ def remove(board, ai):
     elif len(r11) != 0:
         return r11[0]
     else:
-        return am[0]
+        return am[randint(0,len(am)-1)]
 
 def remove11(board, ai):
     ans = []
