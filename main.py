@@ -111,15 +111,6 @@ def op(state, index):
             turn_change()
         board_change()
         state_check()
-    if current_parameter.ai == 1 and current_parameter.aiturn == current_parameter.whoseturn and\
-        current_parameter.state == 0:
-        op(current_parameter.state, air.add(button_state_list, current_parameter.aiturn))
-    if current_parameter.ai == 1 and current_parameter.aiturn == current_parameter.whoseturn and\
-        current_parameter.state == 3:
-        if current_parameter.aiturn == 2:
-            op(current_parameter.state, air.remove(button_state_list, current_parameter.aiturn, current_parameter.vap))
-        else:
-            op(current_parameter.state, air.remove(button_state_list, current_parameter.aiturn, current_parameter.xap))
     if current_parameter.xpp == 2 and current_parameter.xap == 0:
         messagebox.showinfo("", "Green Win")
         reset()
@@ -136,6 +127,26 @@ def op(state, index):
         messagebox.showinfo("", "Red Win")
         reset()
         return
+    if current_parameter.ai == 1 and current_parameter.aiturn == current_parameter.whoseturn and\
+        current_parameter.state == 0:
+        op(current_parameter.state, air.add(button_state_list, current_parameter.aiturn))
+    if current_parameter.ai == 1 and current_parameter.aiturn == current_parameter.whoseturn and\
+        current_parameter.state == 3:
+            op(current_parameter.state, air.remove(button_state_list, current_parameter.aiturn))
+    if current_parameter.ai == 1 and current_parameter.aiturn == current_parameter.whoseturn and\
+        current_parameter.state == 1:
+        if current_parameter.aiturn == 2:
+            current_parameter.state = 2
+            res = air.select(button_state_list, current_parameter.aiturn, current_parameter.vpp)
+            current_parameter.select = res[0]
+            current_parameter.move = [res[1]]
+            op(current_parameter.state, res[1])
+        else:
+            current_parameter.state = 2
+            res = air.select(button_state_list, current_parameter.aiturn, current_parameter.xpp)
+            current_parameter.select = res[0]
+            current_parameter.move = [res[1]]
+            op(current_parameter.state, res[1])
 
 def reset():
     current_parameter.xpp = 0
@@ -181,7 +192,7 @@ def move_check(num):
         current_parameter.move_check = []
         return False
 
-def select_check(index, num ):
+def select_check(index, num):
     if (current_parameter.whoseturn == 1 and current_parameter.xpp == 3) or\
         (current_parameter.whoseturn == 2 and current_parameter.vpp == 3):
         i=0
