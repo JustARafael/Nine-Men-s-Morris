@@ -2,12 +2,12 @@ from random import randint
 
 def remove(board, ai, pp):
     if pp == 0:
-        temp = []
-        temp = possiblemill(board, ai, 1)
-        temp = [x for x in temp if x in removecheck(board, ai)]
-        if len(temp) != 0:
-            return temp[randint(0,len(temp)-1)]
-    am = removecheck(board, ai)
+        removemill = []
+        removemill = possiblemill(board, ai, 1)
+        removemill = [x for x in removemill if x in removecheck(board, ai)]
+        if len(removemill) != 0:
+            return removemill[randint(0,len(removemill)-1)]
+    available_move = removecheck(board, ai)
     r21 = remove21(board, ai)
     r11 = remove11(board, ai)
     if len(r21) != 0:
@@ -15,7 +15,7 @@ def remove(board, ai, pp):
     elif len(r11) != 0:
         return r11[randint(0,len(r11)-1)]
     else:
-        return am[randint(0,len(am)-1)]
+        return available_move[randint(0,len(available_move)-1)]
 
 def add(board, ai):
     stop = stopmill(board, ai)
