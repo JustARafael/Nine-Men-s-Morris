@@ -1,6 +1,57 @@
 from random import randint
 
+def remove(board, ai, pp):
+    if pp == 0:
+        temp = []
+        temp = possiblemill(board, ai, 1)
+        temp = [x for x in temp if x in removecheck(board, ai)]
+        if len(temp) != 0:
+            return temp[randint(0,len(temp)-1)]
+    am = removecheck(board, ai)
+    r21 = remove21(board, ai)
+    r11 = remove11(board, ai)
+    if len(r21) != 0:
+        return r21[randint(0,len(r21)-1)]
+    elif len(r11) != 0:
+        return r11[randint(0,len(r11)-1)]
+    else:
+        return am[randint(0,len(am)-1)]
+
+def add(board, ai):
+    stop = stopmill(board, ai)
+    form = formmill(board, ai, 2)
+    preform = formmill(board, ai, 1)
+    advance = advancemill(board, ai)
+    last = juststop(board, ai)
+    if len(form) != 0:
+        return form[0]
+    elif len(stop) != 0:
+        return stop[randint(0,len(stop)-1)]
+    elif len(preform) != 0:
+        return preform[randint(0,len(preform)-1)]
+    elif len(advance) != 0:
+        return advance[randint(0,len(advance)-1)]
+    elif len(last) != 0:
+        return last[randint(0,len(last)-1)]
+    else:
+        misc = randint(0, 23)
+        while board[misc] != 0:
+            misc = randint(0, 23)
+        return misc
+
+def selectstop(board, ai):
+    ans = possiblemill(board, ai, 0)
+    return ans
+
 def select(board, ai, pp):
+    if pp == 3:
+        #temp1 = possiblemill(board, ai, 0)
+        temp2 = brutemill(board, ai)
+        #if len(temp1) != 0:
+        #    return temp1[range(0,randint(len(temp1)-1))]
+        #elif len(temp2) != 0:
+        if len(temp2) != 0:
+            return temp2
     aip = []
     i = 0
     for e in board:
@@ -16,26 +67,108 @@ def select(board, ai, pp):
     selects = selectstop(board, ai)
     temp = []
     for e in ans:
-        pos = mp(board, e)
-        temp.append([e, pos[randint(0,len(pos)-1)]])
+        pos = mp(board, e, 0)
+        if len(pos) != 0:
+            temp.append([e, pos[randint(0,len(pos)-1)]])
     ans = temp
     if len(selectm) != 0:
-        return selectm[0]
+        return selectm[randint(0,len(selectm)-1)]
     elif len(selectc) != 0:
-        return selectc[0]
+        return selectc[randint(0,len(selectc)-1)]
     else:
         return ans[randint(0,len(ans)-1)]
+
+def brutemill(board, ai):
+    ans = []
+    i=0
+    for e in index_check_list:
+        if (board[e[0]] == ai or board[e[0]] == 0) and (board[e[1]] == ai or board[e[1]] == 0) and\
+            (board[e[2]] == ai or board[e[2]] == 0):
+            cur = 0
+            theempty = [e[0], e[1], e[2]]
+            ap = []
+            i=0
+            for z in board:
+                if z == ai:
+                    ap.append(i)
+                i+=1
+            if board[e[0]] != 0:
+                theempty.remove(e[0])
+                try:
+                    ap.remove(e[0])
+                except ValueError:
+                    pass
+                cur+=1
+            if board[e[1]] != 0:
+                theempty.remove(e[1])
+                try:
+                    ap.remove(e[1])
+                except ValueError:
+                    pass
+                cur+=1
+            if board[e[2]] != 0:
+                theempty.remove(e[2])
+                try:
+                    ap.remove(e[2])
+                except ValueError:
+                    pass
+                cur+=1
+            if cur == 2:
+                return (ap[0], theempty[0])
+            else:
+                for a,b in zip(ap,theempty):
+                    ans.append([a,b])      
+    return ans[randint(0,len(ans)-1)]
 
 def swap(v1, v2):
     return v2, v1
 
-def selectstop(board, ai):
-    pass
+def possiblemill(board, ai, m):
+    empty21 = []
+    theempty = []
+    for e in index_check_list:
+        if board[e[0]] == 0 or board[e[1]] == 0 or board[e[2]] == 0:
+            cur = 0
+            if board[e[0]] != ai and board[e[0]] != 0:
+                cur +=1
+            if board[e[1]] != ai and board[e[1]] != 0:
+                cur+=1
+            if board[e[2]] != ai and board[e[2]] != 0:
+                cur+=1
+            if cur == 2:
+                temp = []
+                if board[e[0]] != 0:
+                    temp.append(e[0])
+                if board[e[1]] != 0:
+                    temp.append(e[1])
+                if board[e[2]] != 0:
+                    temp.append(e[2])
+                empty21.append(temp)
+                if board[e[0]] == 0:
+                    theempty.append(e[0])
+                if board[e[1]] == 0:
+                    theempty.append(e[1])
+                if board[e[2]] == 0:
+                    theempty.append(e[2])
+    pos = []
+    i=0
+    if m == 1:
+        for e in theempty:
+            if ai == 1:
+                temp = mp(board, e, 2)
+            else:
+                temp = mp(board, e, 1)
+            temp3 = [x for x in temp if x not in empty21[i]]
+            pos+=temp3
+            i+=1
+    else:
+        return theempty
+    return pos
 
 def selectmill(board, ai, ans):
     res = []
     for e in ans:
-        for f in mp(board, e):
+        for f in mp(board, e, 0):
             num = nummillcheck(board, ai)
             board[e], board[f] = swap(board[e], board[f])
             if millcheck(board, ai, num):
@@ -64,35 +197,35 @@ def selectchoice(board, ai, ans):
     for e in ans:
         for f in index_check_list:
             if (e in f) and (board[f[0]] == ai) and (board[f[1]] ==  ai) and (board[f[2]] == ai):
-                pos = mp(board, e)
+                pos = mp(board, e, 0)
                 res.append([e, pos[randint(0,len(pos)-1)]])
     return res       
     
-def mp(board, index):
+def mp(board, index, t):
     ans = []
     for e in select_check_list2:
-        if index == e[0] and (board[e[1]] == 0 or board[e[2]] == 0):
-            if board[e[1]] == 0:
+        if index == e[0] and (board[e[1]] == t or board[e[2]] == t):
+            if board[e[1]] == t:
                 ans.append(e[1])
-            if board[e[2]] == 0:
+            if board[e[2]] == t:
                 ans.append(e[2]) 
     for e in select_check_list3:
-        if index == e[0] and (board[e[1]] == 0 or board[e[2]] == 0 or board[e[3]] == 0):
-            if board[e[1]] == 0:
+        if index == e[0] and (board[e[1]] == t or board[e[2]] == t or board[e[3]] == t):
+            if board[e[1]] == t:
                 ans.append(e[1])
-            if board[e[2]] == 0:
+            if board[e[2]] == t:
                 ans.append(e[2])
-            if board[e[3]] == 0:
+            if board[e[3]] == t:
                 ans.append(e[3])
     for e in select_check_list4:
-        if index == e[0] and (board[e[1]] == 0 or board[e[2]] == 0 or board[e[3]] == 0 or board[e[4]] == 0):
-            if board[e[1]] == 0:
+        if index == e[0] and (board[e[1]] == t or board[e[2]] == t or board[e[3]] == t or board[e[4]] == t):
+            if board[e[1]] == t:
                 ans.append(e[1])
-            if board[e[2]] == 0:
+            if board[e[2]] == t:
                 ans.append(e[2])
-            if board[e[3]] == 0:
+            if board[e[3]] == t:
                 ans.append(e[3]) 
-            if board[e[4]] == 0:
+            if board[e[4]] == t:
                 ans.append(e[4]) 
     return ans
 
@@ -110,17 +243,6 @@ def selectcheck(board, index, pp):
             if index == e[0] and (board[e[1]] == 0 or board[e[2]] == 0 or board[e[3]] == 0 or board[e[4]] == 0):
                 return True
     return False
-
-def remove(board, ai):
-    am = removecheck(board, ai)
-    r21 = remove21(board, ai)
-    r11 = remove11(board, ai)
-    if len(r21) != 0:
-        return r21[0]
-    elif len(r11) != 0:
-        return r11[0]
-    else:
-        return am[randint(0,len(am)-1)]
 
 def remove11(board, ai):
     ans = []
@@ -193,29 +315,9 @@ def removecheck(board, ai):
                 ans.remove(e[2])
             except ValueError:
                 pass
+    if len(ans) == 0:
+        ans = list(range(24))
     return ans
-
-def add(board, ai):
-    stop = stopmill(board, ai)
-    form = formmill(board, ai, 2)
-    preform = formmill(board, ai, 1)
-    advance = advancemill(board, ai)
-    last = juststop(board, ai)
-    if len(form) != 0:
-        return form[0]
-    elif len(stop) != 0:
-        return stop[0]
-    elif len(preform) != 0:
-        return preform[0]
-    elif len(advance) != 0:
-        return advance[0]
-    elif len(last) != 0:
-        return last[0]
-    else:
-        misc = randint(0, 23)
-        while board[misc] != 0:
-            misc = randint(0, 23)
-        return misc
 
 def advancemill(board, ai):
     ans = []

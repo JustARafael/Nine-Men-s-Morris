@@ -113,26 +113,31 @@ def op(state, index):
         state_check()
     if current_parameter.xpp == 2 and current_parameter.xap == 0:
         messagebox.showinfo("", "Green Win")
-        reset()
+        mode_selection()
         return
     if current_parameter.vpp == 2 and current_parameter.vap == 0:
         messagebox.showinfo("", "Red Win")
-        reset()
+        mode_selection()
         return
     if move_check(1) and current_parameter.xap == 0:
         messagebox.showinfo("", "Green Win")
-        reset()
+        mode_selection()
         return
     if move_check(2) and current_parameter.vap == 0:
         messagebox.showinfo("", "Red Win")
-        reset()
+        mode_selection()
         return
     if current_parameter.ai == 1 and current_parameter.aiturn == current_parameter.whoseturn and\
         current_parameter.state == 0:
         op(current_parameter.state, air.add(button_state_list, current_parameter.aiturn))
     if current_parameter.ai == 1 and current_parameter.aiturn == current_parameter.whoseturn and\
         current_parameter.state == 3:
-            op(current_parameter.state, air.remove(button_state_list, current_parameter.aiturn))
+        if current_parameter.aiturn == 2:
+            current_parameter.remove = [air.remove(button_state_list, current_parameter.aiturn, current_parameter.xap)]
+            op(current_parameter.state, current_parameter.remove[0])
+        else:
+            current_parameter.remove = [air.remove(button_state_list, current_parameter.aiturn, current_parameter.vap)]
+            op(current_parameter.state, current_parameter.remove[0])
     if current_parameter.ai == 1 and current_parameter.aiturn == current_parameter.whoseturn and\
         current_parameter.state == 1:
         if current_parameter.aiturn == 2:
@@ -263,9 +268,9 @@ def select_check(index, num):
 
 def move_turn(new, old):
     if button_state_list[new] == 0 and (new in current_parameter.move):
-        button_state_list[old] = 0
         button_checked_list[old] = 0
-        button_state_list[new] = current_parameter.whoseturn
+        button_state_list[new] = button_state_list[old]
+        button_state_list[old] = 0
         current_parameter.move = []
         if current_parameter.whoseturn == 1:
             button_list[old].config(image=xb_image)
@@ -374,7 +379,7 @@ def place(player, index):
             current_parameter.vap-=1
             current_parameter.vpp+=1
         return True
-    messagebox.showwarning("", "Can not place here")
+    messagebox.showwarning("", "Cannot place here")
 
 def board_check():
     for e in index_check_list:
@@ -393,14 +398,17 @@ def board_check():
     return False
 
 def mode_selection():
+    reset_gui()
     pvp_mode.grid(row=0, column=0)
     pvc_mode.grid(row=0, column=1)
 
 def pvp():
+    reset()
     start_interface()
     start_game()
 
 def pvm():
+    reset()
     current_parameter.ai = 1
     start_interface()
     start_game()
